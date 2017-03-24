@@ -8,10 +8,14 @@ namespace PowershellHidden
 		[STAThread]
 		static void Main(string[] args)
 		{
-			Runspace rs = RunspaceFactory.CreateRunspace();
+            string arg = "& \"" + String.Join("\" \"", args) + "\"";
+            System.IO.File.WriteAllText(@"c:\bin\var\arg.txt", arg);
+
+            Runspace rs = RunspaceFactory.CreateRunspace();
 			rs.Open();
-			Pipeline pipe = rs.CreatePipeline();
-            pipe.Commands.AddScript(String.Join(args[0], " "));
+
+            Pipeline pipe = rs.CreatePipeline();
+            pipe.Commands.AddScript(arg);
             pipe.Invoke();
 		}
 	}
