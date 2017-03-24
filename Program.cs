@@ -11,7 +11,7 @@ namespace PowershellHidden
 			Runspace rs = RunspaceFactory.CreateRunspace();
 			rs.Open();
 			Pipeline pipe = rs.CreatePipeline();
-            pipe.Commands.AddScript(args[0]);
+            pipe.Commands.AddScript(String.Join(args[0], " "));
             pipe.Invoke();
 		}
 	}
