@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Management.Automation.Runspaces;
 
 namespace PowershellHidden
@@ -8,7 +9,8 @@ namespace PowershellHidden
 		[STAThread]
 		static void Main(string[] args)
 		{
-            string arg = "& \"" + String.Join("\" \"", args) + "\"";
+            var args2 = args.Select(a => a.Contains(' ') ? ('"' + a + '"') : a);
+            string arg = "& {" + String.Join(" ", args2) + "}";
             System.IO.File.WriteAllText(@"c:\bin\var\arg.txt", arg);
 
             Runspace rs = RunspaceFactory.CreateRunspace();
